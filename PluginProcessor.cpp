@@ -22,12 +22,9 @@ DubwayAudioProcessor::DubwayAudioProcessor()
                        )
 #endif
 {
-
     addParameter(new AudioParameterFloat("gain", "Gain", 0.0f, 1.0f, 1.0f));
     addParameter(new AudioParameterFloat("feedback", "Delay feedback", 0.0f, 1.0f, 0.35f));
     addParameter(new AudioParameterFloat("mix", "Dry / Wet", 0.0f, 1.0f, 0.5f));
-
-
 }
 
 DubwayAudioProcessor::~DubwayAudioProcessor()
@@ -206,8 +203,8 @@ bool DubwayAudioProcessor::hasEditor() const
 
 AudioProcessorEditor* DubwayAudioProcessor::createEditor()
 {
-    //return new DubwayAudioProcessorEditor (*this);
-    return new GenericAudioProcessorEditor(*this);
+    return new DubwayAudioProcessorEditor (*this);
+    //return new GenericAudioProcessorEditor(*this);
 }
 
 //==============================================================================

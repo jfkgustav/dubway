@@ -16,16 +16,16 @@ DubwayAudioProcessorEditor::DubwayAudioProcessorEditor (DubwayAudioProcessor& p)
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (400, 400);
+    gainSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
+    feedbackSlider.setSliderStyle(Slider::SliderStyle::Rotary);
+    mixSlider.setSliderStyle(Slider::SliderStyle::Rotary);
 
-    delayVolume.setSliderStyle(Slider::LinearBarVertical);
-    delayVolume.setRange(0.0, 127.0, 1.0);
-    delayVolume.setTextBoxStyle(Slider::NoTextBox, false, 90, 0);
-    delayVolume.setPopupDisplayEnabled(true, false, this);
-    delayVolume.setTextValueSuffix(" Delay Volume");
-    delayVolume.setValue(1.0);
+    for (auto* slider : { &gainSlider, &feedbackSlider, &mixSlider }) {
+        slider->setTextBoxStyle(Slider::TextBoxBelow, true, 200, 30);
+        addAndMakeVisible(slider);
+    }
 
-    addAndMakeVisible(&delayVolume);
-    delayVolume.addListener(this);
+
 }
 
 DubwayAudioProcessorEditor::~DubwayAudioProcessorEditor()
@@ -47,11 +47,19 @@ void DubwayAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    delayVolume.setBounds(40, 30, 20, getHeight() - 60);
+    Rectangle<int> bounds = getLocalBounds();
+    int margin = 20;
+
+    Rectangle<int> gainBounds = bounds.removeFromRight (getWidth() / 3);
+    gainSlider.setBounds (gainBounds);
+
+    Rectangle<int> knobsBounds = bounds.removeFromTop(getHeight() / 2);
+    Rectangle<int> feedbackBounds = knobsBounds.removeFromLeft(knobsBounds.getWidth() / 2);
+    feedbackSlider.setBounds(feedbackBounds.reduced(margin));
+    mixSlider.setBounds(knobsBounds.reduced(margin));
 }
 
 void DubwayAudioProcessorEditor::sliderValueChanged(Slider* slider)
 {
-    audioProcessor.noteOnVel = delayVolume.getValue();
 }
 

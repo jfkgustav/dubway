@@ -32,7 +32,7 @@ private:
     // access the processor object that created it.
     DubwayAudioProcessor& audioProcessor;
 
-    Slider delayVolume;
+    Slider gainSlider, feedbackSlider, mixSlider;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DubwayAudioProcessorEditor)
 };
